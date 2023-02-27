@@ -17,11 +17,10 @@ loop:
     sub $v0, $v0, $t1
     add $v0, $v0, $a1
     slt $t2, $a0, 2
-    
-    sub $a1, $a1, 1
     addi $a0, $a0, 1
-    bne $t2, $zero, loop
     addi $t0, $t0, -1
+    bne $t2, $zero, loop
+    sub $a1, $a1, 1
     j loop
 
 done:
