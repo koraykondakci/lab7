@@ -121,7 +121,7 @@ loop:
     bne $t7, $zero, isLower     
 
 notLetter:
-    j afterBranch
+    j goToNext
 
 isUpper:
     li $v0, 11
@@ -139,7 +139,7 @@ isUpper:
     la $a0, newline
     syscall
     jal ConventionCheck
-    j afterBranch
+    j goToNext
 
 isLower:
     li $v0, 11
@@ -157,9 +157,9 @@ isLower:
     la $a0, newline
     syscall
     jal ConventionCheck
-    j afterBranch
+    j goToNext
 
-afterBranch:
+goToNext:
     addi $s1, $s1, 1
     add $s2, $s1, $s3
     lbu $s0, 0($s2)
