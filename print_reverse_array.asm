@@ -17,7 +17,7 @@ printA:
 
 loop:
 	slt $t3, $t1, $t2
-	bne $t3, $zero, loop_exit
+	bne $t3, $zero, loopEnd
 	sll $t4, $t1, 2
 	add $t5, $t0, $t4
 	lw $t6, 0($t5)
@@ -30,7 +30,7 @@ loop:
 	sub $t1, $t1, 1
 	j loop
 
-loop_exit:
+loopEnd:
 	jr $ra
 
 main:  # DO NOT MODIFY THE MAIN SECTION

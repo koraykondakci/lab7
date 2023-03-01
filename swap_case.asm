@@ -85,6 +85,94 @@ Exit:
 # YOU CAN ONLY MODIFY THIS FILE FROM THIS POINT ONWARDS:
 SwapCase:
     #TODO: write your code here, $a0 stores the address of the string
+    move $s0, $a0
+
+    addiu $sp, $sp, -24
+    sw $s0, 0($sp)
+    sw $s1, 4($sp)
+    sw $s2, 8($sp)
+    sw $s3, 12($sp)
+    sw $s4, 16($sp)
+    sw $ra, 20($sp)
+
+    li $s1, 0
+    move $s2, $a0
+    add $s3, $s1, $s2
+    lbu $s0, 0($s3)
+    li $s4, 4
+
+loop:
+    beq $s0, $zero, loopEnd 
+
+    # if letter is upper case
+    li $t3, 65  # t3 = 'A'
+    li $t4, 90  # t4 = 'Z'
+    sge $t5, $s0, $t3         
+    sle $t6, $s0, $t4         
+    and $t7, $t5, $t6,        
+    bne $t7, $zero, isUpper     
+    
+    # if letter is lower case
+    li $t3, 97   # t3 = 'a'
+    li $t4, 122  # t4 = 'z'
+    sge $t5, $s0, $t3         
+    sle $t6, $s0, $t4         
+    and $t7, $t5, $t6,        
+    bne $t7, $zero, isLower     
+
+notLetter:
+    j afterBranch
+
+isUpper:
+    li $v0, 11
+    move $a0, $s0
+    syscall
+    li $v0, 4
+    la $a0, newline
+    syscall
+    addiu $s0, $s0, 32
+    sb $s0, 0($s2) 
+    li $v0, 11
+    move $a0, $s0
+    syscall
+    li $v0, 4
+    la $a0, newline
+    syscall
+    jal ConventionCheck
+    j afterBranch
+
+isLower:
+    li $v0, 11
+    move $a0, $s0
+    syscall
+    li $v0, 4
+    la $a0, newline
+    syscall
+    addiu $s0, $s0, -32
+    sb $s0, 0($s2) 
+    li $v0, 11
+    move $a0, $s0
+    syscall
+    li $v0, 4
+    la $a0, newline
+    syscall
+    jal ConventionCheck
+    j afterBranch
+
+afterBranch:
+    addi $s1, $s1, 1
+    add $s2, $s1, $s3
+    lbu $s0, 0($s2)
+    j loop
+    
+loopEnd:
+    lw $s0, 0($sp)
+    lw $s1, 4($sp)
+    lw $s2, 8($sp)
+    lw $s3, 12($sp)
+    lw $s4, 16($sp)
+    lw $ra, 20($sp)
+    addiu $sp, $sp, 24
     
     # Do not remove this line - it should be the last line in your function code
     jr $ra

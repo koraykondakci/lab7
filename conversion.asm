@@ -12,7 +12,7 @@ conv:
     li, $t0, 8
 
 loop:
-    beq $t0, $zero, done
+    beq $t0, $zero, loopEnd
     sll $t1, $a0, 3
     sub $v0, $v0, $t1
     add $v0, $v0, $a1
@@ -23,7 +23,7 @@ loop:
     sub $a1, $a1, 1
     j loop
 
-done:
+loopEnd:
     jr $ra
 
 
